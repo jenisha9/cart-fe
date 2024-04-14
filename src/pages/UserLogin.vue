@@ -14,7 +14,7 @@
         <button type="submit" class="w-full bg-pink-500 text-white font-semibold px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:bg-pink-600">Login</button>
       </form>
       <div class="mt-4 text-center">
-        <a href='/user/register' class="text-pink-500 hover:text-pink-700 font-semibold">Create an Account</a>
+        <a href='/register' class="text-pink-500 hover:text-pink-700 font-semibold">Create an Account</a>
       </div>
     </div>
   </div>
@@ -22,7 +22,24 @@
 
 <script setup>
 import { LoginForm } from '@/composables/LoginForm.js';
-const { email, password, submitForm} = LoginForm();
+import { useToast } from 'vue-toastification';
+const { email, password, submitForm, error} = LoginForm();
+
+const toast = useToast();
+
+if (error.response && error.response.data) {
+  const responseData = error.response.data;
+  const errorMessage = responseData.error || 'An unexpected error occurred.';
+  if (errorMessage === 'Invalid credentials') {
+    toast.error('User does not exist!!');
+  } else if (errorMessage === 'Incorrect password') {
+    toast.error('Password is incorrect!!');
+  } else {
+    toast.error(errorMessage);
+  }
+} else {
+  toast.error('An unexpected error occurred.');
+}
 
 </script>
   
