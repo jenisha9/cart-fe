@@ -23,7 +23,7 @@ export function LoginForm() {
           },
         body: JSON.stringify(formData)
            };
-        await useFetch('http://127.0.0.1:8000/user/login/', options).then((res) => {
+        await useFetch('http://127.0.0.1:8000/login/', options).then((res) => {
 
           data.value = res
         }).catch((err) => {
@@ -38,5 +38,5 @@ export function LoginForm() {
       throw(err)
     }
   };
-  return {email, password, submitForm};
+  return {email, password, submitForm, error};
 }

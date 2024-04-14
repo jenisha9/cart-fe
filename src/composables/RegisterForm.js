@@ -25,7 +25,7 @@ export function RegisterForm() {
           },
         body: JSON.stringify(formData)
            };
-        await useFetch('http://127.0.0.1:8000/user/register/', options).then((res) => {
+        await useFetch('http://127.0.0.1:8000/register/', options).then((res) => {
           data.value = res
         }).catch((err) => {
 
