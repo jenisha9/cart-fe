@@ -11,7 +11,7 @@
           <label for="password" class="block text-gray-700 font-semibold mb-2">Password:</label>
           <input type="password" id="password" v-model="password" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
         </div>
-        <button type="submit" class="w-full bg-pink-500 text-white font-semibold px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:bg-pink-600">Login</button>
+        <button type="submit" @click="login()"  class="w-full bg-pink-500 text-white font-semibold px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:bg-pink-600" >Login</button>
       </form>
       <div class="mt-4 text-center">
         <a href='/register' class="text-pink-500 hover:text-pink-700 font-semibold">Create an Account</a>
@@ -23,24 +23,30 @@
 <script setup>
 import { LoginForm } from '@/composables/LoginForm.js';
 import { useToast } from 'vue-toastification';
-const { email, password, submitForm, error} = LoginForm();
+import router from '@/router/routes.js'
+
+const { email, password, submitForm, error, data } = LoginForm();
 
 const toast = useToast();
 
-if (error.response && error.response.data) {
-  const responseData = error.response.data;
-  const errorMessage = responseData.error || 'An unexpected error occurred.';
-  if (errorMessage === 'Invalid credentials') {
-    toast.error('User does not exist!!');
-  } else if (errorMessage === 'Incorrect password') {
-    toast.error('Password is incorrect!!');
-  } else {
-    toast.error(errorMessage);
+const login = () => {
+  if(data && data.value){
+    router.push({name:'Products'})
+  } else{
+      if (error && error.response && error.response.data) {
+        const responseData = error.response.data;
+        const errorMessage = responseData.error || 'An unexpected error occurred.';
+        if (errorMessage === 'Invalid credentials') {
+          toast.error('User does not exist!!');
+        } else if (errorMessage === 'Incorrect password') {
+          toast.error('Password is incorrect!!');
+        } else {
+          toast.error(errorMessage);
+        }
+      } 
+        else {
+        toast.error('An unexpected error occurred.');
+      }
   }
-} else {
-  toast.error('An unexpected error occurred.');
 }
-
 </script>
-  
-  
