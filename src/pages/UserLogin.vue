@@ -11,7 +11,7 @@
           <label for="password" class="block text-gray-700 font-semibold mb-2">Password:</label>
           <input type="password" id="password" v-model="password" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
         </div>
-        <button type="submit" @click="login()"  class="w-full bg-pink-500 text-white font-semibold px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:bg-pink-600" >Login</button>
+        <button type="submit" class="w-full bg-pink-500 text-white font-semibold px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:bg-pink-600" >Login</button>
       </form>
       <div class="mt-4 text-center">
         <a href='/register' class="text-pink-500 hover:text-pink-700 font-semibold">Create an Account</a>
@@ -23,14 +23,14 @@
 <script setup>
 import { LoginForm } from '@/composables/LoginForm.js';
 import { useToast } from 'vue-toastification';
-import router from '@/router/routes.js'
+import router from '@/router/routes.js';
+import {watch} from 'vue';
 
-const { email, password, submitForm, error, data } = LoginForm();
-
+const { email, password, submitForm,data,error} = LoginForm();
 const toast = useToast();
-
-const login = () => {
-  if(data && data.value){
+  watch(data, ()=> {
+    console.log(data)
+    if( data && data.value){
     router.push({name:'Products'})
   } else{
       if (error && error.response && error.response.data) {
@@ -48,5 +48,6 @@ const login = () => {
         toast.error('An unexpected error occurred.');
       }
   }
-}
+})
+
 </script>
