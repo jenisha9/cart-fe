@@ -24,19 +24,17 @@ export function LoginForm() {
         body: JSON.stringify(formData)
            };
         await useFetch('http://127.0.0.1:8000/login/', options).then((res) => {
-
           data.value = res
         }).catch((err) => {
 
           error.value = err
         })
-      return { data, error};
-    
+        return {data, error}
     } catch (err) {
       error.value = err;
       console.error('Error during login:', err);
       throw(err)
     }
   };
-  return {email, password, submitForm, error};
+  return {email, password, submitForm,data,error};
 }
