@@ -7,7 +7,7 @@
             <li class="mr-4"><a href="/products" class="hover:text-red-500">Home</a></li>
             <li class="mr-4"><a href="/login" class="hover:text-red-500">Login</a></li>
             <li class="mr-4"><a href="/register" class="hover:text-red-500">Register</a></li>
-            <li class="mr-4"><a href="/register" class="hover:text-red-500">Cart</a></li>
+            <li class="mr-4"><a href="/cart" class="hover:text-red-500">Cart</a></li>
           </ul>
         </nav>
       </div>
