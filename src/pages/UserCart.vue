@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 <template>
   <div>
     <h2>Shopping Cart</h2>
@@ -28,7 +30,7 @@ const cartItems = ref([]);
 const totalPrice = ref(0);
 
 const fetchCart = () => {
-  axios.get('/api/cart')
+  axios.get('http://127.0.0.1:8000/cart/')
     .then(response => {
       cartItems.value = response.data.items;
       totalPrice.value = response.data.total_price;
@@ -39,8 +41,8 @@ const fetchCart = () => {
 };
 
 const updateQuantity = (productId, quantity) => {
-  axios.post(`cart/${productId}`, { quantity })
-    .then(response => {
+  axios.post(`http://127.0.0.1:8000/cart/${productId}`, { quantity })
+    .then(() => { 
       fetchCart();
     })
     .catch(error => {
@@ -49,8 +51,8 @@ const updateQuantity = (productId, quantity) => {
 };
 
 const removeFromCart = (productId) => {
-  axios.delete(`cart/${productId}`)
-    .then(response => {
+  axios.delete(`http://127.0.0.1:8000/cart/${productId}`)
+    .then(() => {
       fetchCart();
     })
     .catch(error => {
@@ -59,8 +61,8 @@ const removeFromCart = (productId) => {
 };
 
 const clearCart = () => {
-  axios.delete('cart/')
-    .then(response => {
+  axios.delete('http://127.0.0.1:8000/cart/')
+    .then(() => {
       fetchCart();
     })
     .catch(error => {
