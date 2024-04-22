@@ -4,15 +4,16 @@
       <h2 class="text-pink-500 text-2xl font-semibold mb-4">Login</h2>
       <form @submit.prevent="submitForm" method="post">
         <div class="mb-4">
-          <InputBox label="Email" v-model="email" type="email" :error="error"/>
+          <InputBox label="Email" v-model="email" type="email" field="email" :error="error" />
         </div>
         <div class="mb-6">
-          <InputBox label="Password" v-model="password" type="password" :error="error"/>
+          <InputBox label="Password" v-model="password" type="password" field="password" :error="error" />
         </div>
+
         <button type="submit"
-        class="w-full bg-pink-500 text-white font-semibold px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:bg-pink-600">
-        Login
-      </button>
+          class="w-full bg-pink-500 text-white font-semibold px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:bg-pink-600">
+          Login
+        </button>
       </form>
       <div class="mt-4 text-center">
         <a href="/register" class="text-pink-500 hover:text-pink-700 font-semibold">Create an Account</a>
