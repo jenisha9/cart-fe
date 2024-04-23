@@ -32,6 +32,8 @@ const { email, password, submitForm, data, error } = LoginForm();
 watch(data, () => {
   console.log(data);
   if (data && data.value) {
+    localStorage.setItem('token', data.value.token);
+    localStorage.setItem('email', email.value);
     router.push({ name: "Products" });
   }
 });
