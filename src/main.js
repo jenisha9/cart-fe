@@ -1,17 +1,12 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia'
 import App from './App.vue';
 import './assets/tailwind.css';
-import Toast from 'vue-toastification';
-import 'vue-toastification/dist/index.css';
 import router from './router/routes.js';
 
+const pinia = createPinia()
 const app = createApp(App);
 app.use(router);
 
-app.use(Toast, {
-  position: 'top-center',
-  icon: true,
-  transition: "Vue-Toastification__bounce",
-});
-
+app.use(pinia)
 app.mount('#app');
