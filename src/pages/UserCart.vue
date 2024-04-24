@@ -1,79 +1,42 @@
-/* eslint-disable */
-
 <template>
-  <div>
-    <h2>Shopping Cart</h2>
-    <div v-if="cartItems.length === 0">
-      <p>Your cart is empty</p>
+  <div class="container ml-auto py-6">
+    <div v-if="items.length===0" class="text-center">Cart is Null</div>
+    <div v-else class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+      <ul >
+      <li v-for ="(product,index) in items" :key="index">
+      <div  class="bg-custom-light rounded-lg p-4 shadow-md"> 
+        <img :src="product.image" :alt="product.title" class="w-16 h-16 object-cover mb-4">
+        <h3 class="text-mg font-semibold mb-2 h-18">{{product.id }} {{ ' : ' }}{{ product.title }}</h3>
+        <p class="text-gray-800 font-semibold mb-2">${{ product.price }}</p>
+        <button class="bg-pink-300 text-white py-2 px-4 rounded-md cursor-pointer transition-colors 
+                               duration-300 hover:custom-brown" @click="increment(product,index)"> + </button>  
+          <span class="p-3"> {{ quantity[product.id] }}</span>
+        <button class="bg-pink-300 text-white py-2 px-4 rounded-md cursor-pointer transition-colors duration-300 hover:custom-brown" @click="decrement()">-</button>
+        </div>
+      </li>
+        </ul>
+        <p class="bg-pink-300 text-black py-2 px-4 rounded-md cursor-pointer transition-colors duration-300 hover:custom-brown">Total:${{ total }}</p>
     </div>
-    <div v-else>
-      <div v-for="item in cartItems" :key="item.id">
-        <p>{{ item.product }}</p>
-        <p>Price: {{ item.price }}</p>
-        <button @click="removeFromCart(item.id)">Remove</button>
-      </div>
-      <button @click="clearCart">Clear Cart</button>
-    </div>
-  </div>
+  </div>  
+
 </template>
-
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import {computed} from 'vue';
+import { useCart } from "@/composables/UseCart"
+const cart = useCart()
+const items = cart.items
+const quantity = cart.quantity
 
-const cartItems = ref([]);
-
-const fetchCart = async () => {
-  const token = localStorage.getItem('token');
-  console.log(token);
-
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Token ${token}`
-  };
-
-  await axios.get('http://127.0.0.1:8000/cart/', { headers })
-    .then(response => {
-      cartItems.value = response.data;
-      console.log(cartItems.value)
-    })
-    .catch(error => {
-      console.error('Error fetching cart:', error);
-    });
-};
-
-
-// const updateQuantity = (productId, quantity) => {
-//   axios.post(`http://127.0.0.1:8000/cart/${productId}`, { quantity })
-//     .then(() => { 
-//       fetchCart();
-//     })
-//     .catch(error => {
-//       console.error('Error updating quantity:', error);
-//     });
-// };
-
-const removeFromCart = (productId) => {
-  axios.delete(`http://127.0.0.1:8000/cart/${productId}`)
-    .then(() => {
-      fetchCart();
-    })
-    .catch(error => {
-      console.error('Error removing item from cart:', error);
-    });
-};
-
-const clearCart = () => {
-  axios.delete('http://127.0.0.1:8000/cart/')
-    .then(() => {
-      fetchCart();
-    })
-    .catch(error => {
-      console.error('Error clearing cart:', error);
-    });
-};
-
-onMounted(fetchCart);
+const total = computed(() => {  
+let totalPrice = 0; 
+for (let i = 0; i < items.length; i++) {
+  totalPrice += Number(items[i].price)*quantity[items[i].id];
+}
+return totalPrice;
+});
+console.log("items",items)
+const increment = (product,index) => {
+ cart.increment(items[index],index);
+}
+console.log('Total',total)
 </script>
-
-
