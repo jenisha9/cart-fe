@@ -1,34 +1,36 @@
 <template>
   <div>
-    <!-- Header -->
     <header class="bg-pink-500 text-white py-4">
-      <div class="container mx-auto flex justify-between items-center">
-        <img v-if="token" src="@/assets/user.png" alt="Logo" class="h-8 mr-4">
-        <h1 class="text-2xl hover:bg-pink-600 focus:bg-pink-600"></h1>
-        <nav>
-          <ul class="flex">
-            <li class="mr-4"><a href="/products" class="text-white h-8 mr-4">Home</a></li>
-            <li v-if="!token">
-              <a href="/register" class="text-white h-8 mr-4">Register</a>
-            </li>
-            <button v-if="token" @click="handleLogout" class="text-white">Logout</button>
-            <button v-else>
-              <a href="/login" class="text-white h-8 mr-4">Login</a>
-            </button>
-            <div>
-              <button @click="toggleCart" class="h-8 mr-4">
-                Cart
-              </button>
-            </div>
-          </ul>
-        </nav>
-      </div>
-    </header>
+  <div class="container mx-auto flex justify-between items-center">
+    <img v-if="token" src="@/assets/user.png" alt="Logo" class="h-8 mr-4">
+    <h1 class="text-2xl hover:bg-pink-600 focus:bg-pink-600"></h1>
+    <nav>
+      <ul class="flex">
+        <li class="mr-4"><a href="/products" class="text-white h-8 mr-4">Home</a></li>
+        <li v-if="!token">
+          <a href="/register" class="text-white h-8 mr-4">Register</a>
+        </li>
+        <li v-if="token" @click="handleLogout" class="text-white cursor-pointer">Logout</li>
+        <li v-else>
+          <a href="/login" class="text-white h-8 mr-4">Login</a>
+        </li>
+        <li>
+          <button @click="toggleCart" class="text-white h-8 mr-4">
+            Cart
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
     <div v-if="isOpen" class="fixed top-0 left-0 h-full w-full bg-black opacity-50 z-30" @click="closeCart"></div>
-    <div :class="{ 'right-0': isOpen, 'right-full': !isOpen }" class="fixed top-0 h-full w-1/3 bg-white shadow-lg transition-all duration-300 z-40">
+    <div :class="{ 'right-0': isOpen, 'right-full': !isOpen }" class="fixed top-0 h-full w-1/3 bg-red-100 shadow-lg transition-all duration-300 z-40">
       <div class="p-4">
+        <div class="cart-content" style="max-height: 70vh; overflow-y: auto;">
         <UserCart />
       </div>
+    </div>
     </div>
   </div>
 </template>
